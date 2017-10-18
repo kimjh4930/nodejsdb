@@ -55,7 +55,7 @@ function connectDB(){
 			return this.find({id : id}, callback);
 		});
 		
-		userSchema.static('findAll', function(callback){
+		UserSchema.static('findAll', function(callback){
 			return this.find({ }, callback);
 		});
 		
@@ -202,8 +202,8 @@ app.post('/process/listuser', function(req, res){
 			if(results){
 				console.dir(results);
 				
-				res.writeHead('200', {'Content-Type':'text/html;charset8'});
-				res.write('<h2>사용자리스트.');
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>사용자리스트.</h2>');
 				res.write('<div><ul>');
 				
 				for(var index=0; index < results.length; index++){

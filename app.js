@@ -37,7 +37,7 @@ function connectDB(){
 	mongoose.connect(databaseUrl);
 	database = mongoose.connection;
 	
-	database.on('error', console.error.bind(ocnsole, 'mongoose connection error'));
+	database.on('error', console.error.bind(console, 'mongoose connection error'));
 	database.on('open', function(){
 		console.log('데이터베이스에 연결되었습니다. : ' + databaseUrl);
 		

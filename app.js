@@ -37,7 +37,7 @@ function connectDB(){
 	mongoose.connect(databaseUrl);
 	database = mongoose.connection;
 	
-	database.on('error', console.error.bind(ocnsole, 'mongoose connection error'));
+	database.on('error', console.error.bind(console, 'mongoose connection error'));
 	database.on('open', function(){
 		console.log('데이터베이스에 연결되었습니다. : ' + databaseUrl);
 		
@@ -55,7 +55,7 @@ function connectDB(){
 			return this.find({id : id}, callback);
 		});
 		
-		userSchema.static('findAll', function(callback){
+		UserSchema.static('findAll', function(callback){
 			return this.find({ }, callback);
 		});
 		
@@ -202,8 +202,8 @@ app.post('/process/listuser', function(req, res){
 			if(results){
 				console.dir(results);
 				
-				res.writeHead('200', {'Content-Type':'text/html;charset8'});
-				res.write('<h2>사용자리스트.');
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>사용자리스트.</h2>');
 				res.write('<div><ul>');
 				
 				for(var index=0; index < results.length; index++){

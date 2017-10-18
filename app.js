@@ -12,9 +12,12 @@ var expressErrorHandler = require('express-error-handler');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var mongodb = require('mongodb');
+var mongoose = require('mongoose');
 
 var app = express();
 var database;
+var UserSchema;
+var UserModel;
 
 // all environments
 app.set('port', process.env.PORT || 8080);
@@ -30,14 +33,33 @@ app.use(expressSession({
 function connectDB(){
 	var databaseUrl = 'mongodb://localhost:27017/shopping';
 	
-	mongodb.connect(databaseUrl, function(err, db){
-		if(err) throw err;
-		
+	//데이터베이스 연결.
+	mongoose.connect(databaseUrl);
+	database = mongoose.connection;
+	
+	database.on('error', console.error.bind(ocnsole, 'mongoose connection error'));
+	database.on('open', function(){
 		console.log('데이터베이스에 연결되었습니다. : ' + databaseUrl);
 		
-		//변수할당.
-		database = db;
+		//스키마 정의.
+		UserSchema = mongoose.Schema({
+			id: {type:String, required:true, unique:true},
+			password : {type:String, required:true},
+			name : String,
+			age : Number,
+			create_at:Date,
+			update_at:Date
+		});
+		
+		console.log('UserSchema 정의함.');
+		
+		//User 모델 정의
+		UserModel = mongoose.model("users", UserSchema);
+		console.log('users 정의함.');
+		
 	});
+	
+	database.on('disconnected', connectDB);
 }
 
 //사용자를 인증하는 함수
@@ -47,17 +69,18 @@ var authUser = function(database, id, password, callback){
 	var users = database.collection('users');
 	
 	//아이디와 비밀번호를 사용해 검색.
-	users.find({"id" : id, "password" : password}).toArray(function(err, docs){
-		
-		if(err){
+	UserModel.find({"id" : id, "password" : password}, function(err, results){
+		if (err){
 			callback(err, null);
 			return;
 		}
 		
+		console.log('아이디 [%s], 비밀번호 [%s]로 사용자 검색 결과.',id, password);
+		console.dir(results);
 		
-		if(docs.length > 0){
+		if(results.length > 0){
 			console.log('아이디 [%s], 비밀번호 [%s]가 일치하는 사용자를 찾음.', id, password);
-			callback(null, docs);
+			callback(null, results);
 		}else{
 			console.log('일치하는 사용자를 찾지 못함.');
 			callback(null, null);
@@ -71,16 +94,17 @@ var addUser = function(database, id, password, name, callback){
 	console.log('addUser 호출됨.');
 	
 	//user컬렉션 참조.
-	var users = database.collection('users');
-	//id, password, name을 사용해 사용자 추가.
-	users.insert([{"id" : id, "password" : password, "name" : name}], function(err, result){
+	var users = new UserModel({"id" : id, "password" : password, "name" : name});
+	
+	//save로 저장.
+	users.save(function(err){
 		if(err){
 			callback(err, null);
 			return;
 		}
 		
 		console.log('사용자 데이터 추가함.');
-		callback(null, result);
+		callback(null, users);
 	});
 }
 

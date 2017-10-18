@@ -93,5 +93,7 @@ function findAll(){
 	});
 }
 
+connectDB();
+
 
 

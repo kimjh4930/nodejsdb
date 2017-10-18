@@ -45,16 +45,24 @@ function connectDB(){
 		UserSchema = mongoose.Schema({
 			id: {type:String, required:true, unique:true},
 			password : {type:String, required:true},
-			name : String,
-			age : Number,
-			create_at:Date,
-			update_at:Date
+			name : {type:String, index:'hashed'},
+			age : {type:Number, 'default':-1},
+			create_at:{type : Date, index : {unique : false}, 'default': Date.now},
+			update_at:{type : Date, index : {unique : false}, 'default': Date.now}
+		});
+		
+		UserSchema.static('findbyId', function(id, callback){
+			return this.find({id : id}, callback);
+		});
+		
+		userSchema.static('findAll', function(callback){
+			return this.find({ }, callback);
 		});
 		
 		console.log('UserSchema 정의함.');
 		
 		//User 모델 정의
-		UserModel = mongoose.model("users", UserSchema);
+		UserModel = mongoose.model("users2", UserSchema);
 		console.log('users 정의함.');
 		
 	});
@@ -66,10 +74,9 @@ function connectDB(){
 var authUser = function(database, id, password, callback){
 	console.log('authUser 호출됨.');
 	
-	var users = database.collection('users');
-	
-	//아이디와 비밀번호를 사용해 검색.
-	UserModel.find({"id" : id, "password" : password}, function(err, results){
+	//아이디를 이용해 검색.
+	UserModel.findById(id, function(err, result){
+		
 		if (err){
 			callback(err, null);
 			return;
@@ -79,8 +86,15 @@ var authUser = function(database, id, password, callback){
 		console.dir(results);
 		
 		if(results.length > 0){
-			console.log('아이디 [%s], 비밀번호 [%s]가 일치하는 사용자를 찾음.', id, password);
-			callback(null, results);
+			
+			if(results[0]._doc.password == password){
+				console.log('비밀번호 일치함.');
+				callback(null, results);
+			}else{
+				console.log('비밀번호 일치하지 않음.');
+				callback(null, null);
+			}
+			
 		}else{
 			console.log('일치하는 사용자를 찾지 못함.');
 			callback(null, null);
@@ -172,6 +186,42 @@ app.post('/process/login', function(req,res){
 		res.write('<div><p>데이터베이스에 연결하지 못했습니다.</p></div>');
 		res.end();
 	}
+});
+
+app.post('/process/listuser', function(req, res){
+	console.log('/process/listuser 호출됨.');
+	
+	if(database){
+		// 1.모든 사용자 검색.
+		UserModel.findAll(function(err, results){
+			if(err){
+				callback(err, null);
+				return;
+			}
+			
+			if(results){
+				console.dir(results);
+				
+				res.writeHead('200', {'Content-Type':'text/html;charset8'});
+				res.write('<h2>사용자리스트.');
+				res.write('<div><ul>');
+				
+				for(var index=0; index < results.length; index++){
+					var curId = results[index]._doc.id;
+					var curName = results[index]._doc.name;
+					res.write("      <li>#" + index + ' : ' + curId + ', ' + curName + '</li>');
+				}
+				
+				res.write('</ul></div>');
+				res.end();
+			}else{
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>사용자 리스트 조회 실패</h2>');
+				res.end();
+			}
+		});
+	}
+	
 });
 
 var errorHandler = expressErrorHandler({

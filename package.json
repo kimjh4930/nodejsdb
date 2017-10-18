@@ -6,15 +6,16 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.2.6",
-    "jade": "*",
     "body-parser": "1.18.2",
-    "express-error-handler": "1.1.0",
     "cookie-parser": "*",
+    "crypto": "^1.0.1",
+    "express": "3.2.6",
+    "express-error-handler": "1.1.0",
     "express-session": "*",
-    "http":"0.0.0",
-    "path":"^0.11.14",
-    "mongo":"^0.1.0",
-    "mongoose":"^4.12.1"    
+    "http": "0.0.0",
+    "jade": "*",
+    "mongo": "^0.1.0",
+    "mongoose": "^4.12.1",
+    "path": "^0.11.14"
   }
 }

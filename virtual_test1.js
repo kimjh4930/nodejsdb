@@ -49,7 +49,7 @@ function createUserSchema(){
 		.set(function(info){
 			var splitted = info.split(' ');
 			this.id = splitted[0];
-			this.name = spitted[1];
+			this.name = splitted[1];
 			
 			console.log('virtual info 설정함 : %s, %s', this.id, this.name);
 		})

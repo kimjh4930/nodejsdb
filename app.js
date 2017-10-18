@@ -66,6 +66,54 @@ var authUser = function(database, id, password, callback){
 	});
 }
 
+//사용자 등록하는 함수.
+var addUser = function(database, id, password, name, callback){
+	console.log('addUser 호출됨.');
+	
+	//user컬렉션 참조.
+	var users = database.collection('users');
+	//id, password, name을 사용해 사용자 추가.
+	users.insert([{"id" : id, "password" : password, "name" : name}], function(err, result){
+		if(err){
+			callback(err, null);
+			return;
+		}
+		
+		console.log('사용자 데이터 추가함.');
+		callback(null, result);
+	});
+}
+
+app.post('/process/adduser', function(req, res){
+	console.log('/process/adduser 호출됨.');
+	
+	var paramId = req.param('id');
+	var paramPassword = req.param('password');
+	var paramName = req.param('name');
+	
+	if(database){
+		addUser(database, paramId, paramPassword, paramName, function(err, result){
+			if(err) throw err;
+			
+			if(result){
+				console.dir(result);
+				
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>사용자 추가 성공</h2>');
+				res.end();
+			}else{
+				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+				res.write('<h2>사용자 추가 실패</h2>');
+				res.end();
+			}
+		});
+	}else{
+		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+		res.write('<h2>데이터베이스 연결실패.</h2>');
+		res.end();
+	}
+});
+
 app.post('/process/login', function(req,res){
 	console.log('/process/login 호출됨.');
 	

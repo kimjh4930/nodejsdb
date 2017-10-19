@@ -76,7 +76,7 @@ function createUserSchema(){
 			return this._password;
 		});
 	
-	UserSchema.static('findbyId', function(id, callback){
+	UserSchema.static('findById', function(id, callback){
 		return this.find({id : id}, callback);
 	});
 		

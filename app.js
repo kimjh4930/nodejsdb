@@ -152,7 +152,7 @@ var authUser = function(database, id, password, callback){
 			console.log('아이디와 일치하는 사용자 찾음.');
 			
 			//2. 비밀번호 확인 : 모델 인스턴스를 객체로 만들고 authenticate() 메소드 호출.
-			var user = new UserModel({"id" : id});
+			var user = new UserModel({id : id});
 			var authenticated = user.authenticate(password, results[0]._doc.salt, results[0]._doc.hashed_password);
 			
 			if(authenticated){

@@ -121,9 +121,9 @@ function createUserSchema(){
 		return name.length;
 	}, 'name 칼럼이 없습니다.');
 	
-	UserSchema.path('password').validate(function(password){
-		return password.length;
-	}, 'password 칼럼이 없습니다.');
+//	UserSchema.path('password').validate(function(password){
+//		return password.length;
+//	}, 'password 칼럼이 없습니다.');
 	
 	
 	UserModel = mongoose.model("users3", UserSchema);

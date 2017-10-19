@@ -66,7 +66,7 @@ function createUserSchema(){
 	
 	UserSchema
 		.virtual('password')
-		.set(function(){
+		.set(function(password){
 			this._password = password;
 			this.salt = this.makeSalt();
 			this.hashed_password = this.encryptPassword(password);
@@ -120,6 +120,10 @@ function createUserSchema(){
 	UserSchema.path('name').validate(function(name){
 		return name.length;
 	}, 'name 칼럼이 없습니다.');
+	
+	UserSchema.path('password').validate(function(password){
+		return password.length;
+	}, 'password 칼럼이 없습니다.');
 	
 	
 	UserModel = mongoose.model("users3", UserSchema);

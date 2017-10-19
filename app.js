@@ -198,6 +198,8 @@ var addUser = function(database, id, password, name, callback){
 	//user컬렉션 참조.
 	var users = new UserModel({"id" : id, "password" : password, "name" : name});
 	
+	console.log('id : ' + id + ', password : ' + password + ', name : ' + name);
+	
 	//save로 저장.
 	users.save(function(err){
 		if(err){

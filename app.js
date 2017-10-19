@@ -196,18 +196,18 @@ var addUser = function(database, id, password, name, callback){
 	console.log('addUser 호출됨.');
 	
 	//user컬렉션 참조.
-	var users = new UserModel({"id" : id, "password" : password, "name" : name});
+	var user = new UserModel({"id" : id, "password" : password, "name" : name});
 	
 	//save로 저장.
-	users.save(function(err){
-		if(err){
-			callback(err, null);
-			return;
-		}
-		
-		console.log('사용자 데이터 추가함.');
-		callback(null, users);
-	});
+//	user.save(function(err){
+//		if(err){
+//			callback(err, null);
+//			return;
+//		}
+//		
+//		console.log('사용자 데이터 추가함.');
+//		callback(null, user);
+//	});
 }
 
 app.post('/process/adduser', function(req, res){

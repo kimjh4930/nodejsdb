@@ -102,12 +102,12 @@ function createUserSchema(){
 	//인증 메소드 - 입력된 비밀번호와 비교
 	UserSchema.method('authenticate', function(plainText, inSalt, hashed_password){
 		if(inSalt){
-			console.log('authenticate 호출됨 : %s -> %s', plainText,
+			console.log('authenticate 호출됨 : %s -> %s : %s', plainText,
 					this.encryptPassword(plainText, inSalt), hashed_password);
 			
 			return this.encryptPassword(plainText, inSalt) == hashed_password;
 		}else{
-			console.log('authenticate 호출됨 : %s -> %s', plainText,
+			console.log('authenticate 호출됨 : %s -> %s : %s', plainText,
 					this.encryptPassword(plainText), hashed_password);
 			
 			return this.encryptPassword(plainText, inSalt) == hashed_password;

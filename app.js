@@ -175,6 +175,8 @@ var authUser = function(database, id, password, callback){
 var addUser = function(database, id, password, name, callback){
 	console.log('addUser 호출됨.');
 	
+	console.log('id : ' + id + ', password : ' + password + ', name : ' + name);
+	
 	//user컬렉션 참조.
 	var user = new UserModel({"id":id, "password":password, "name":name});
 	

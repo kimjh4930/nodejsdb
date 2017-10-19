@@ -109,6 +109,8 @@ function createUserSchema(){
 		}else{
 			console.log('authenticate 호출됨 : %s -> %s', plainText,
 					this.encryptPassword(plainText), hashed_password);
+			
+			return this.encryptPassword(plainText, inSalt) == hashed_password;
 		}
 	});
 	

@@ -137,7 +137,7 @@ var authUser = function(database, id, password, callback){
 	console.log('authUser 호출됨.');
 	
 	//아이디를 이용해 검색.
-	UserModel.findById(id, function(err, result){
+	UserModel.findById(id, function(err, results){
 		
 		if (err){
 			callback(err, null);

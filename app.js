@@ -44,30 +44,6 @@ function connectDB(){
 		
 		createUserSchema();
 		
-		//스키마 정의.
-//		UserSchema = mongoose.Schema({
-//			id: {type:String, required:true, unique:true},
-//			password : {type:String, required:true},
-//			name : {type:String, index:'hashed'},
-//			age : {type:Number, 'default':-1},
-//			create_at:{type : Date, index : {unique : false}, 'default': Date.now},
-//			update_at:{type : Date, index : {unique : false}, 'default': Date.now}
-//		});
-//		
-//		UserSchema.static('findbyId', function(id, callback){
-//			return this.find({id : id}, callback);
-//		});
-//		
-//		UserSchema.static('findAll', function(callback){
-//			return this.find({ }, callback);
-//		});
-//		
-//		console.log('UserSchema 정의함.');
-//		
-//		//User 모델 정의
-//		UserModel = mongoose.model("users2", UserSchema);
-//		console.log('users 정의함.');
-		
 	});
 	
 	database.on('disconnected', connectDB);
@@ -196,18 +172,18 @@ var addUser = function(database, id, password, name, callback){
 	console.log('addUser 호출됨.');
 	
 	//user컬렉션 참조.
-	var user = new UserModel({"id" : id, "password" : password, "name" : name});
+	var user = new UserModel({"id":id, "password":password, "name":name});
 	
 	//save로 저장.
-//	user.save(function(err){
-//		if(err){
-//			callback(err, null);
-//			return;
-//		}
-//		
-//		console.log('사용자 데이터 추가함.');
-//		callback(null, user);
-//	});
+	user.save(function(err){
+		if(err){
+			callback(err, null);
+			return;
+		}
+		
+		console.log('사용자 데이터 추가함.');
+		callback(null, user);
+	});
 }
 
 app.post('/process/adduser', function(req, res){

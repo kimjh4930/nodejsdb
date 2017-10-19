@@ -88,7 +88,7 @@ function createUserSchema(){
 	//비밀번호 암호화 메소드.
 	UserSchema.method('encryptPassword', function(plainText, inSalt){
 		if(inSalt){
-			return crypto.createHmac('sha1', inSalt)
+			return crypto.createHmac('sha1', inSalt).update(plainText).digest('hex');
 		}else{
 			return crypto.createHmac('sha1', this.salt).update(plainText).digest('hex');
 		}

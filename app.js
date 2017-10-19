@@ -217,7 +217,7 @@ app.post('/process/adduser', function(req, res){
 	var paramPassword = req.param('password');
 	var paramName = req.param('name');
 	
-	console.log('id : ' + id + ', password : ' + password + ', name : ' + name);
+	console.log('id : ' + paramId + ', password : ' + paramPassword + ', name : ' + paramName);
 	
 	if(database){
 		addUser(database, paramId, paramPassword, paramName, function(err, result){

@@ -20,6 +20,8 @@ var database;
 var UserSchema;
 var UserModel;
 
+var user = require('./routes/users');
+
 // all environments
 app.set('port', process.env.PORT || 8080);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -56,9 +58,9 @@ function createUserSchema(){
 	//salt속성은 암호화 과정에서 일종의 key값으로 salt값을 사용한다.
 	
 	UserSchema = require('./user_schema').createSchema(mongoose);
-	
 	UserModel = mongoose.model("users3", UserSchema);
-	console.log('users 정의함.');
+
+	user.init(database, UserSchema, UserModel);
 	
 }
 
@@ -123,109 +125,9 @@ var addUser = function(database, id, password, name, callback){
 	});
 }
 
-app.post('/process/adduser', function(req, res){
-	console.log('/process/adduser 호출됨.');
-	
-	var paramId = req.param('id');
-	var paramPassword = req.param('password');
-	var paramName = req.param('name');
-	
-	console.log('id : ' + paramId + ', password : ' + paramPassword + ', name : ' + paramName);
-	
-	if(database){
-		addUser(database, paramId, paramPassword, paramName, function(err, result){
-			if(err) throw err;
-			
-			if(result){
-				console.dir(result);
-				
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h2>사용자 추가 성공</h2>');
-				res.end();
-			}else{
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h2>사용자 추가 실패</h2>');
-				res.end();
-			}
-		});
-	}else{
-		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-		res.write('<h2>데이터베이스 연결실패.</h2>');
-		res.end();
-	}
-});
-
-app.post('/process/login', function(req,res){
-	console.log('/process/login 호출됨.');
-	
-	var paramId = req.param('id');
-	var paramPassword = req.param('password');
-	
-	if(database){
-		authUser(database, paramId, paramPassword, function(err, docs){
-			if(err) {throw err;}
-			
-			if(docs){
-				console.dir(docs);
-				
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h1>로그인 성공.</h1>');
-				res.write('<div><p>사용자 아이디 : ' + paramId + '</p></div>');
-				res.write('<div><p>사용자 이름 : ' + docs[0].name + '</p></div>');
-				res.write("<br><br><a href='/login.html'>다시 로그인하기</a>");
-				res.end();
-			}else{
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h1>로그인 실패</h1>');
-				res.write('<div><p>아이디와 비밀번호를 다시 확인하십시오.</p></div>');
-				res.write("<br><br><a href='/login.html'>다시 로그인하기.</a>");
-				res.end();
-			}
-			
-		});
-	}else{
-		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-		res.write('<h2>데이터베이스 연결 실패.</h2>');
-		res.write('<div><p>데이터베이스에 연결하지 못했습니다.</p></div>');
-		res.end();
-	}
-});
-
-app.post('/process/listuser', function(req, res){
-	console.log('/process/listuser 호출됨.');
-	
-	if(database){
-		// 1.모든 사용자 검색.
-		UserModel.findAll(function(err, results){
-			if(err){
-				callback(err, null);
-				return;
-			}
-			
-			if(results){
-				console.dir(results);
-				
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h2>사용자리스트.</h2>');
-				res.write('<div><ul>');
-				
-				for(var index=0; index < results.length; index++){
-					var curId = results[index]._doc.id;
-					var curName = results[index]._doc.name;
-					res.write("      <li>#" + index + ' : ' + curId + ', ' + curName + '</li>');
-				}
-				
-				res.write('</ul></div>');
-				res.end();
-			}else{
-				res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-				res.write('<h2>사용자 리스트 조회 실패</h2>');
-				res.end();
-			}
-		});
-	}
-	
-});
+app.post('/process/adduser', user.adduser );
+app.post('/process/login', user.login );
+app.post('/process/listuser', user.listuser );
 
 var errorHandler = expressErrorHandler({
 	static :{

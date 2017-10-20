@@ -13,7 +13,6 @@ var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
-var crypto = require('crypto');
 
 var app = express();
 var database;

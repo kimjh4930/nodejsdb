@@ -20,7 +20,7 @@ var database;
 var UserSchema;
 var UserModel;
 
-var user = require('./routes/users');
+var user = require('./routes/user');
 
 // all environments
 app.set('port', process.env.PORT || 8080);

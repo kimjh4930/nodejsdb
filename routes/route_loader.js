@@ -2,11 +2,11 @@
  * http://usejsdoc.org/
  */
 
-var router_loader = {};
+var route_loader = {};
 
 var config = require('../config');
 
-router_loader.init = function(app, router){
+route_loader.init = function(app, router){
 	console.log('route_loader.init 호출됨.');
 	return initRoutes(app, router);
 }
@@ -38,4 +38,4 @@ function initRoutes(app, router){
 	app.use('/', router);
 }
 
-module.exports = router_loader;
+module.exports = route_loader;

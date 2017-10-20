@@ -64,67 +64,6 @@ function createUserSchema(){
 	
 }
 
-
-//사용자를 인증하는 함수
-var authUser = function(database, id, password, callback){
-	console.log('authUser 호출됨.');
-	
-	//아이디를 이용해 검색.
-	UserModel.findById(id, function(err, results){
-		
-		if (err){
-			callback(err, null);
-			return;
-		}
-		
-		console.log('아이디 [%s], 비밀번호 [%s]로 사용자 검색 결과.',id, password);
-		console.dir(results);
-		
-		if(results.length > 0){
-			
-			console.log('아이디와 일치하는 사용자 찾음.');
-			
-			//2. 비밀번호 확인 : 모델 인스턴스를 객체로 만들고 authenticate() 메소드 호출.
-			var user = new UserModel({id : id});
-			var authenticated = user.authenticate(password, results[0]._doc.salt, results[0]._doc.hashed_password);
-			
-			if(authenticated){
-				console.log('비밀번호 일치함.');
-				callback(null, results);
-			}else{
-				console.log('비밀번호 일치하지 않음.');
-				callback(null, null);
-			}
-			
-		}else{
-			console.log('일치하는 사용자를 찾지 못함.');
-			callback(null, null);
-		}
-		
-	});
-}
-
-//사용자 등록하는 함수.
-var addUser = function(database, id, password, name, callback){
-	console.log('addUser 호출됨.');
-	
-	console.log('id : ' + id + ', password : ' + password + ', name : ' + name);
-	
-	//user컬렉션 참조.
-	var user = new UserModel({"id":id, "password":password, "name":name});
-	
-	//save로 저장.
-	user.save(function(err){
-		if(err){
-			callback(err, null);
-			return;
-		}
-		
-		console.log('사용자 데이터 추가함.');
-		callback(null, user);
-	});
-}
-
 app.post('/process/adduser', user.adduser );
 app.post('/process/login', user.login );
 app.post('/process/listuser', user.listuser );

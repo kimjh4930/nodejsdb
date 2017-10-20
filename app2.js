@@ -16,10 +16,6 @@ var mongoose = require('mongoose');
 
 var app = express();
 
-var database;
-var UserSchema;
-var UserModel;
-
 var user = require('./routes/user');
 
 //분리한 모듈 불러오기

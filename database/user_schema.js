@@ -79,6 +79,7 @@ Schema.createSchema = function(mongoose){
 	
 	console.log('UserSchema 정의함.');
 	
+	//새로 만들어진 스키마 객체를 반환함.
 	return UserSchema;
 }
 

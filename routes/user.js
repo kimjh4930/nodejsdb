@@ -8,9 +8,9 @@ var init = function(database, schema, model){
 	
 	console.log('user 초기화.');
 	
-	this.database = database;
-	this.UserSchema = schema;
-	this.UserModel = model;
+	database = database;
+	UserSchema = schema;
+	UserModel = model;
 }
 
 var login = function(req, res){

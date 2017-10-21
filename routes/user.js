@@ -5,6 +5,9 @@ var UserSchema;
 var UserModel;
 
 var init = function(database, schema, model){
+	
+	console.log('user 초기화.');
+	
 	this.database = database;
 	this.UserSchema = schema;
 	this.UserModel = model;

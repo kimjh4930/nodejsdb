@@ -40,13 +40,14 @@ function connectDB(){
 	mongoose.connect(databaseUrl);
 	database = mongoose.connection;
 	
-	console.log(database);
+	console.log("connect : " + database);
 	
 	database.on('error', console.error.bind(console, 'mongoose connection error'));
 	database.on('open', function(){
 		console.log('데이터베이스에 연결되었습니다. : ' + databaseUrl);
 		
 		createUserSchema();
+		user.init(database, UserSchema, UserModel);
 		
 	});
 	
@@ -56,13 +57,9 @@ function connectDB(){
 function createUserSchema(){
 	
 	UserSchema = require('./database/user_schema').createSchema(mongoose);
-	
 	//UserModel 정의.
 	UserModel = mongoose.model("user3", UserSchema);
 	console.log('UserModel 정의함.');
-	
-	user.init(database, UserSchema, UserModel);
-	console.log('user.init 초기화.');
 	
 }
 

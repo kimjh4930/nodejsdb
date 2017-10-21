@@ -60,6 +60,7 @@ function createUserSchema(){
 	console.log('UserModel 정의함.');
 	
 	user.init(database, UserSchema, UserModel);
+	console.log('user.init 초기화.');
 	
 }
 

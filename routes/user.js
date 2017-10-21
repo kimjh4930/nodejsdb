@@ -1,13 +1,13 @@
 //사용자 처리 함수를 분리.
 
 var database;
-var schema;
-var model;
+var UserSchema;
+var UserModel;
 
 var init = function(database, schema, model){
 	this.database = database;
-	this.schema = schema;
-	this.model = model;
+	this.UserSchema = schema;
+	this.UserModel = model;
 }
 
 var login = function(req, res){

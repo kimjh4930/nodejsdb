@@ -4,11 +4,11 @@ var database;
 var UserSchema;
 var UserModel;
 
-var init = function(database, schema, model){
+var init = function(db, schema, model){
 	
 	console.log('user 초기화.');
 	
-	database = database;
+	database = db;
 	UserSchema = schema;
 	UserModel = model;
 }

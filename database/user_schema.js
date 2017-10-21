@@ -82,4 +82,4 @@ Schema.createSchema = function(mongoose){
 	
 };
 
-module.exports = createSchema;
+module.exports = Schema;

@@ -53,7 +53,7 @@ function connectDB(){
 	database.on('disconnected', connectDB);
 }
 
-function createUserSchema(){
+function createUserSchema(database){
 	
 	UserSchema = require('./database/user_schema').createSchema(mongoose);
 	//UserModel 정의.

@@ -15,12 +15,12 @@ var mongodb = require('mongodb');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 
+var user = require('./routes/user');
+
 var app = express();
 var database;
 var UserSchema;
 var UserModel;
-
-var user = require('./routes/user');
 
 // all environments
 app.set('port', process.env.PORT || 8080);
@@ -39,6 +39,8 @@ function connectDB(){
 	//데이터베이스 연결.
 	mongoose.connect(databaseUrl);
 	database = mongoose.connection;
+	
+	console.log(database);
 	
 	database.on('error', console.error.bind(console, 'mongoose connection error'));
 	database.on('open', function(){

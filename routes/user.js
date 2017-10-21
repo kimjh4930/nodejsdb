@@ -17,6 +17,8 @@ var login = function(req, res){
 	var paramId = req.param('id');
 	var paramPassword = req.param('password');
 	
+	console.log('user : ' + database);
+	
 	if(database){
 		authUser(database, paramId, paramPassword, function(err, docs){
 			if(err) {throw err;}

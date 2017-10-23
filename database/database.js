@@ -26,7 +26,6 @@ function connect(app, config){
 	
 	database.db.on('disconnected', connect);
 	
-	
 }
 
 //config에 정의한 스키마 및 모델 객체 생성.

@@ -35,7 +35,8 @@ app.use(expressSession({
 
 
 //라우팅 정보를 읽어들여 라우팅 설정.
-route_loader.init(app, app.Router());
+console.log('express.Router() : ' + express.Router());
+route_loader.init(app, express.Router());
 
 var errorHandler = expressErrorHandler({
 	static :{

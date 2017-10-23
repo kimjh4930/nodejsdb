@@ -11,6 +11,8 @@ function initRoutes(app, router){
 	var infoLength = config.route_info.length;
 	console.log('설정에 정의된 라우팅 모듈의 수 : %d', infoLength);
 	
+	console.log('initRoutes : ' + router);
+	
 	for(var i=0; i<infoLength; i++){
 		var curItem = config.route_info[i];
 		

@@ -17,7 +17,8 @@
     "mongo": "^0.1.0",
     "mongoose": "^4.12.1",
     "path": "^0.11.14",
-    "errorhandler": "^1.4.3"
+    "errorhandler": "^1.4.3",
+    "semantic-ui": "^2.2.13"
   }
 }
 

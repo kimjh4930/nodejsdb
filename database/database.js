@@ -20,7 +20,7 @@ function connect(app, config){
 	database.db.on('open', function(){
 		console.log('데이터베이스에 연결되었습니다. : ' + config.db_url);
 		
-		createSchema(app, database);
+		createSchema(app, config);
 		
 	});
 	
@@ -30,6 +30,8 @@ function connect(app, config){
 
 //config에 정의한 스키마 및 모델 객체 생성.
 function createSchema(app, config){
+
+	console.log('config : ' + config.db_schemas);
 
 	var schemaLength = config.db_schemas.length;
 	console.log('설정에 정의된 스키마 수 : %d', schemaLength);

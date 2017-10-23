@@ -9,13 +9,15 @@
     "body-parser": "1.18.2",
     "cookie-parser": "*",
     "crypto": "^1.0.1",
-    "express": "3.2.6",
+    "express": "4.14.0",
     "express-error-handler": "1.1.0",
     "express-session": "*",
     "http": "0.0.0",
     "jade": "*",
     "mongo": "^0.1.0",
     "mongoose": "^4.12.1",
-    "path": "^0.11.14"
+    "path": "^0.11.14",
+    "errorhandler": "^1.4.3"
   }
 }
+
